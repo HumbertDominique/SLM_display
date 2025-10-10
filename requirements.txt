@@ -1,6 +1,0 @@
-charset_normalizer==3.4.3
-defusedxml==0.7.1
-ipywidgets==8.1.6
-pywin32==310
-regex==2024.11.6
-sympy==1.13.3
