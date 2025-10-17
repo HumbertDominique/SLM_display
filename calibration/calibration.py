@@ -6,6 +6,7 @@ import cv2
 import threading
 import multiprocessing
 from screeninfo import get_monitors
+from astropy.io import fits
 import time
 
 def generate_frames(N, filepath, ext = ".bmp", resolution = (800, 600), value_type = np.uint8):
@@ -233,7 +234,7 @@ class Acquisition:
     To to:
     TODO: ? have to consult
     ------------------------------------------------------------------------------------'''
-    def __init__(self, exposure, save_path, ext ='.bmp', ev_id=0):
+    def __init__(self, exposure, save_path, ext ='.tif', ev_id=0):
         '''------------------------------------------------------------------------------------
         Initialisation for acquisition on a separate thread
         Inputs:
@@ -261,7 +262,8 @@ class Acquisition:
         print("Camera open (if it worked)")
 
         #setting some parameters
-        sensor_bit_depth = self._cam.set_sensor_bit_depth('XI_BPP_12')
+        self._cam.set_sensor_bit_depth('XI_BPP_12')#XI_MONO16
+        self._cam.set_imgdataformat('XI_MONO16')
         sensor_bit_depth = self._cam.get_sensor_bit_depth()
         print('Sensor bit depth set to: ', sensor_bit_depth)
 
@@ -279,7 +281,12 @@ class Acquisition:
 
     def get(self, index):
         self._cam.get_image(self._img)
-        Image.fromarray(self._img.get_image_data_numpy()).save(self._save_path+str(index)+self._ext)
+        
+        cv2.imwrite(self._save_path+str(index)+self._ext,self._img.get_image_data_numpy())
+    
+        # img.options().save_to_16bit=True
+        # img.save(self._save_path+str(index)+self._ext)
+        # imageio.imwrite('result.png', im.astype(np.uint16))
         self._index +=1
         
     def terminate(self):
