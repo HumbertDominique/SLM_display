@@ -21,7 +21,7 @@ def generate_frames(N, filepath, ext = ".bmp", resolution = (800, 600), value_ty
     Returns:
         frames: ndarray, N x width x height array containing the grayscale values for each frame.
     To do:
-    Input checks
+    TODO: Input checks
     ------------------------------------------------------------------------------------'''
     
     frames = np.ones((N, resolution[0], resolution[1]), dtype=value_type)
