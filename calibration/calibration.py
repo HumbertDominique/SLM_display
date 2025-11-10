@@ -15,11 +15,11 @@ def generate_frames(N, filepath, ext = ".bmp", resolution = (800, 600), value_ty
     Inputs:
        N (int): number of calibration frames to generate
        filepath (str): the filepath where the .bpm files will be saved. Default is 'calibration
-       ext (str) : file extension
+       ext (str): file extension
        resolution (tuple): the resolution of the calibration frames (width, height). Default is (800, 600)
        value_type (ndtype): numpy type for the bit depth of the calibration frames. Default is 8 bits.
     Returns:
-        frames: ndarray, N x width x height array containing the grayscale values for each frame.
+        frames (ndarray): N x width x height array containing the grayscale values for each frame.
     To do:
     TODO: Input checks
     ------------------------------------------------------------------------------------'''
@@ -66,8 +66,18 @@ class FullscreenDisplay:
 
         self._current_image = None
 
-    @staticmethod
+    @staticmethod # @staticmethod to avoid memory erros when accessing shared data.
     def display_loop(shared_dict, image_path, window_name, monitor_index, running_flag):
+        '''------------------------------------------------------------------------------------
+        Keeps up the image on a specific monitor and updates it when a change happens
+
+        Inputs:
+            path (str): path of the 1st image to show
+            monitor (int): index of the monitor on which the image will be to displayed
+        Returns:
+            -
+        To to:
+        ------------------------------------------------------------------------------------'''
         monitors = get_monitors()
         if monitor_index >= len(monitors):
             raise ValueError(f"Monitor index {monitor_index} out of range. Found {len(monitors)} monitors.")
@@ -147,7 +157,7 @@ class FullscreenDisplay:
         '''------------------------------------------------------------------------------------
         Function to update the image with threading
         Inputs:
-            new_image_path (str) : path of the new image
+            new_image_path (str): path of the new image
         Returns:
             -
         To to:
@@ -163,7 +173,7 @@ class FullscreenDisplay:
         '''------------------------------------------------------------------------------------
         Function to update the image with multiprocessing
         Inputs:
-            new_image_path (str) : path of the new image
+            new_image_path (str): path of the new image
         Returns:
             -
         To to:
